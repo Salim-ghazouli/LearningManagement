@@ -1,0 +1,325 @@
+{
+  "info": {
+    "_postman_id": "c1c956dc-4a06-440c-b744-f515f37f760a",
+    "name": "lms",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "44188829"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "login",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "username",
+                  "value": "test",
+                  "type": "text",
+                  "uuid": "c03faaca-8231-437a-a057-4e7f44bcab52"
+                },
+                {
+                  "key": "password",
+                  "value": "test1239876",
+                  "type": "text",
+                  "uuid": "367f9a3c-a8e4-4e96-a457-7a8f168fbeca"
+                },
+                {
+                  "key": "password_confirmation",
+                  "value": "test1239876",
+                  "type": "text",
+                  "uuid": "863bec31-9b7c-4345-a564-aa45ca05731c"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/login",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "register",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "full_name",
+                  "value": "mohamade",
+                  "type": "text",
+                  "uuid": "e37fd76a-48c6-42dd-a599-7edc9548d101"
+                },
+                {
+                  "key": "email",
+                  "value": "test.ghazouli@gmail.com",
+                  "type": "text",
+                  "uuid": "c889be77-4034-4561-b7c1-f8b46aaeadbd"
+                },
+                {
+                  "key": "password",
+                  "value": "test123456",
+                  "type": "text",
+                  "uuid": "af3f2564-b915-4b6f-ad61-22588ea4661c"
+                },
+                {
+                  "key": "role_id",
+                  "value": "3",
+                  "type": "text",
+                  "uuid": "7c19323e-5ff6-4d22-85f3-fa4bebf71340"
+                },
+                {
+                  "key": "username",
+                  "value": "test",
+                  "type": "text",
+                  "uuid": "fa4f9d04-5f10-4c29-afa8-50e691818e6a"
+                },
+                {
+                  "key": "password_confirmation",
+                  "value": "test123456",
+                  "type": "text",
+                  "uuid": "e5a78d23-ee43-4027-8787-54bea5a84885"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/register",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "register"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "logout",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "8|F1ADLnSqy0WtKsYSYCN3MTTqtgpiHnsunGLEY0Bpc1c97a3c",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": []
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/logout",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "logout"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "sendEmailToResetPas",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "email",
+                  "value": "test.ghazouli@gmail.com",
+                  "type": "text",
+                  "uuid": "8bce1032-a1c0-457b-8008-41391c258ea2"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/password/email",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "password",
+                "email"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "resetPas",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "email",
+                  "value": "test.ghazouli@gmail.com",
+                  "type": "text",
+                  "uuid": "8bce1032-a1c0-457b-8008-41391c258ea2"
+                },
+                {
+                  "key": "token",
+                  "value": "f388c5c497d108f9f1d5ac8373deb6256af80cd5da3492492a1dfd391663f2c9",
+                  "type": "text",
+                  "uuid": "1891b901-5fd0-4306-b802-61b4ab671e82"
+                },
+                {
+                  "key": "password",
+                  "value": "test1239876",
+                  "type": "text",
+                  "uuid": "8c76fd55-c2be-47fc-bf5a-369313a9997d"
+                },
+                {
+                  "key": "password_confirmation",
+                  "value": "test1239876",
+                  "type": "text",
+                  "uuid": "86d9f622-54cd-421c-949c-a7942479e0c7"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/password/reset",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "password",
+                "reset"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "New Request",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "7|eDHrR3To7MtBWdjO7hLkpVwH5S5ih1hyQCglnAlHebd7d99e",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "http://127.0.0.1:8000/email/verify/4/295c4a519776d416ac592cc65d7706fcf9c43882?expires=1776712812&signature=c8f89b3bc2b3ff84d5bb223fbe81f181435ecf64ee18b69e18499bf02fef1686",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "8000",
+          "path": [
+            "email",
+            "verify",
+            "4",
+            "295c4a519776d416ac592cc65d7706fcf9c43882"
+          ],
+          "query": [
+            {
+              "key": "expires",
+              "value": "1776712812"
+            },
+            {
+              "key": "signature",
+              "value": "c8f89b3bc2b3ff84d5bb223fbe81f181435ecf64ee18b69e18499bf02fef1686"
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
