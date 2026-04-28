@@ -25,4 +25,12 @@ class UserRepository
     {
         return $user->syncRoles([$roleName]);
     }
+    public function removeUserRole($user, $roleName)
+    {
+        return $user->removeRole($roleName);
+    }
+    public function syncUserRole($user, $roleName)
+    {
+        return $user->syncRoles([$roleName]);
+    }
 }

@@ -16,9 +16,17 @@ class RolesAndPermissionsSeeder extends Seeder
     {
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
-        Role::firstOrCreate([
-            'name' => 'admin',
-            'guard_name' => 'api'
-        ]);
+        $roles = [
+            'Admin',
+            'Instructor',
+            'Student',
+        ];
+
+        foreach ($roles as $roleName) {
+            Role::firstOrCreate([
+                'name' => $roleName,
+                'guard_name' => 'api' // تأكد من استخدام api كما فعلنا في الـ Middleware
+            ]);
+        }
     }
 }
