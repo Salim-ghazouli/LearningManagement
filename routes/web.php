@@ -1,19 +1,16 @@
 
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\Auth\AuthController;
 
 Route::middleware('auth:sanctum')->group(function () {
 
-    Route::get('/email/verify/{id}/{hash}', [VerifyEmailController::class, 'verify'])
+    Route::get('/email/verify/{id}/{hash}', [AuthController::class, 'verify'])
         ->middleware('signed')
         ->name('verification.verify');
 
-    Route::post('/email/verification-notification', [VerifyEmailController::class, 'resend'])
+    Route::post('/email/verification-notification', [AuthController::class, 'resend'])
         ->middleware('throttle:6,1')
         ->name('verification.send');
 });

@@ -15,9 +15,6 @@ class StudentProfile extends Model
         'total_courses'
     ];
 
-    /**
-     * العودة للمستخدم صاحب الملف.
-     */
     public function user()
     {
         return $this->belongsTo(User::class);
