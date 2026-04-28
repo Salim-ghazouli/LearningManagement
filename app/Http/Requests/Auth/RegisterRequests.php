@@ -25,7 +25,7 @@ class RegisterRequests extends FormRequest
             'full_name' => 'sometimes|string',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:8|confirmed',
-            'role_id' => 'required|exists:roles,id'
+            
         ];
     }
     protected function failedValidation(Validator $validator)

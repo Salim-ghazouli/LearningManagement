@@ -8,15 +8,15 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Spatie\Permission\Traits\HasRoles;
 
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes,HasRoles;
 
-    
+    protected $guard_name = 'api';
     protected $fillable = [
-        'role_id',
         'full_name',
         'username',
         'email',
@@ -40,10 +40,7 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
 
    
-    public function role()
-    {
-        return $this->belongsTo(Role::class);
-    }
+
 
     
     public function instructorProfile()

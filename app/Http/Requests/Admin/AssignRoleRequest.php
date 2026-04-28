@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Requests\Auth;
+namespace App\Http\Requests\Admin;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Traits\ApiResponseTrait;
 use Illuminate\Contracts\Validation\Validator;
 
-class ResetPasswordRequest extends FormRequest
+class AssignRoleRequest extends FormRequest
 {
     use ApiResponseTrait;
     public function authorize(): bool
@@ -15,13 +15,14 @@ class ResetPasswordRequest extends FormRequest
         return true;
     }
 
+   
     public function rules(): array
     {
         return [
-            'token'    => 'required',
-            'email'    => 'required|email|exists:users,email',
-            'password' => 'required|min:8|confirmed',
+            'user_id'   => 'required|exists:users,id',
+            'role_name' => 'required|exists:roles,name',
         ];
+        
     }
     protected function failedValidation(Validator $validator)
     {
