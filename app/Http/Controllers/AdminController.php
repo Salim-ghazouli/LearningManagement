@@ -10,7 +10,7 @@ use Exception;
 
 class AdminController extends Controller
 {
-    use ApiResponseTrait; 
+    use ApiResponseTrait;
 
     protected $adminService;
 
@@ -22,15 +22,16 @@ class AdminController extends Controller
     public function assignRole(AssignRoleRequest $request)
     {
         try {
-            $this->adminService->updateRole(
-                $request->user_id, 
+            $result = $this->adminService->assignRole(
+                $request->user_id,
                 $request->role_name
             );
-
-            return $this->apiResponse(null, "Role assigned successfully",200);
-            
+            if ($result['already_has_role']) {
+                return $this->apiResponse(null, "User already has the role.", 200);
+            }
+            return $this->apiResponse(null, "Role assigned successfully", 200);
         } catch (Exception $e) {
-            return $this->apiResponse(null,"Failed to assign role: " . $e->getMessage(), 400);
+            return $this->apiResponse(null, "Failed to assign role: " . $e->getMessage(), 400);
         }
     }
 }
