@@ -11,4 +11,4 @@ Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanc
 Route::post('/password/email', [AuthController::class, 'sendResetLinkEmail'])->name('password.email');
 Route::post('/password/reset', [AuthController::class, 'reset'])->name('password.update');
 
-    Route::post('/admin/assign-role', [AdminController::class, 'assignRole']);
+Route::post('/admin/assign-role', [AdminController::class, 'assignRole'])->middleware('auth:sanctum', 'role:admin');

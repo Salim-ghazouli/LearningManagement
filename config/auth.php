@@ -14,7 +14,7 @@ return [
     | as required, but they're a perfect start for most applications.
     |
     */
-    
+
 
     'defaults' => [
         'guard' => env('AUTH_GUARD', 'web'),
@@ -41,6 +41,10 @@ return [
     'guards' => [
         'web' => [
             'driver' => 'session',
+            'provider' => 'users',
+        ],
+        'api' => [
+            'driver' => 'sanctum',
             'provider' => 'users',
         ],
     ],
