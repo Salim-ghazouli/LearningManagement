@@ -20,60 +20,80 @@ class AuthService
     }
     public function registerUser(array $data)
     {
-        $data['password'] = Hash::make($data['password']);
-        $user = $this->userRepository->create($data);
-        $user->sendEmailVerificationNotification();
-        if ($user->role_id == 2) {
-            InstructorProfile::create(['user_id' => $user->id]);
-        } elseif ($user->role_id == 3) {
-            StudentProfile::create(['user_id' => $user->id]);
-        }
+        try {
+            $data['password'] = Hash::make($data['password']);
+            $user = $this->userRepository->create($data);
+            $user->sendEmailVerificationNotification();
+            if ($user->role_id == 2) {
+                InstructorProfile::create(['user_id' => $user->id]);
+            } elseif ($user->role_id == 3) {
+                StudentProfile::create(['user_id' => $user->id]);
+            }
 
-        return [
-            'user' => $user,
-            'token' => $user->createToken('auth_token')->plainTextToken
-        ];
+            return [
+                'user' => $user,
+                'token' => $user->createToken('auth_token')->plainTextToken
+            ];
+        } catch (\Exception $e) {
+            throw new \Exception("Error registering user: " . $e->getMessage());
+        }
     }
 
     public function loginUser(string $username, string $password)
     {
-        $user = $this->userRepository->findByUsername($username);
+        try {
+            $user = $this->userRepository->findByUsername($username);
 
-        if (!$user || !Hash::check($password, $user->password)) {
-            return null;
+            if (!$user || !Hash::check($password, $user->password)) {
+                return null;
+            }
+
+            return [
+                'user' => $user,
+                'token' => $user->createToken('auth_token')->plainTextToken
+            ];
+        } catch (\Exception $e) {
+            throw new \Exception("Error logging in user: " . $e->getMessage());
         }
-
-        return [
-            'user' => $user,
-            'token' => $user->createToken('auth_token')->plainTextToken
-        ];
     }
 
     public function logoutUser($user)
     {
-        return $user->currentAccessToken()->delete();
+        try {
+            return $user->currentAccessToken()->delete();
+        } catch (\Exception $e) {
+            throw new \Exception("Error logging out user: " . $e->getMessage());
+        }
     }
 
     public function sendResetLink(array $data)
     {
-        return Password::sendResetLink($data);
+        try {
+            return Password::sendResetLink($data);
+        } catch (\Exception $e) {
+            throw new \Exception("Error sending reset link: " . $e->getMessage());
+        }
     }
 
     public function resetPassword(array $data)
     {
-       return Password::broker()->reset(
-        $data,
-        function ($user, $password) {
-            if (!$user) {
-                throw new \Exception("User not found during password reset.");
-            }
+        try {
+            return Password::broker()->reset(
+                $data,
+                function ($user, $password) {
+                    if (!$user) {
+                        throw new \Exception("User not found during password reset.");
+                    }
 
-            $user->password = Hash::make($password);
-            $user->setRememberToken(Str::random(60));
-            $user->save();
+                    $user->password = Hash::make($password);
+                    $user->setRememberToken(Str::random(60));
+                    $user->save();
 
-            event(new PasswordReset($user));
+                    event(new PasswordReset($user));
+                }
+            );
+        } catch (\Exception $e) {
+            throw new \Exception("Error resetting password: " . $e->getMessage());
         }
-    );
     }
 }

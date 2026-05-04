@@ -22,10 +22,7 @@ class AdminController extends Controller
     public function assignRole(AssignRoleRequest $request)
     {
         try {
-            $result = $this->adminService->assignRole(
-                $request->user_id,
-                $request->role_name
-            );
+            $result = $this->adminService->assignRole($request->all());
             if ($result['already_has_role']) {
                 return $this->apiResponse(null, "User already has the role.", 200);
             }
@@ -37,10 +34,7 @@ class AdminController extends Controller
     public function revokeRole(AssignRoleRequest $request)
     {
         try {
-            $result = $this->adminService->revokeRole(
-                $request->user_id,
-                $request->role_name
-            );
+            $result = $this->adminService->revokeRole($request->all());
 
             if ($result['status'] === 'not_found') {
                 return $this->apiResponse(null, "User does not have the  role.", 404);
@@ -54,10 +48,7 @@ class AdminController extends Controller
     public function updateRole(AssignRoleRequest $request)
     {
         try {
-            $user = $this->adminService->updateExistingRole(
-                $request->user_id,
-                $request->role_name
-            );
+            $user = $this->adminService->updateExistingRole($request->all());
 
             return $this->apiResponse(null, "User role has been updated to  successfully.", 200);
         } catch (\Exception $e) {
