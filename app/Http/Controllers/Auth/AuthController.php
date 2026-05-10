@@ -31,12 +31,12 @@ class AuthController extends Controller
         try {
             $result = $this->authService->registerUser($request->validated());
             if (!$result) {
-                return $this->apiResponse(null, 'Invalid credentials', 401);
+                return $this->apiResponse(null, 'Invalid credentials', 422);
             }
 
-            return $this->apiResponse($result, 'User registered successfully', 201);
+            return $this->apiResponse($result, 'User registered successfully', 200);
         } catch (\Exception $e) {
-            return $this->apiResponse(null, $e, 500);
+            return $this->apiResponse(null, $e->getMessage(), 500);
         }
     }
 
@@ -47,12 +47,12 @@ class AuthController extends Controller
             $result = $this->authService->loginUser($request->username, $request->password);
 
             if (!$result) {
-                return $this->apiResponse(null, 'Invalid credentials', 401);
+                return $this->apiResponse(null, 'Invalid credentials',422);
             }
 
-            return $this->apiResponse($result, 'Login successful');
+            return $this->apiResponse($result, 'Login successful',200);
         } catch (\Exception $e) {
-            return $this->apiResponse(null, $e, 500);
+            return $this->apiResponse(null, $e->getMessage(), 500);
         }
     }
 
@@ -61,9 +61,9 @@ class AuthController extends Controller
         try {
             $this->authService->logoutUser($request->user());
 
-            return $this->apiResponse(null, 'Logout successful');
+            return $this->apiResponse(null, 'Logout successful',200);
         } catch (\Exception $e) {
-            return $this->apiResponse(null, $e, 500);
+            return $this->apiResponse(null, $e->getMessage(), 500);
         }
     }
 
@@ -72,9 +72,9 @@ class AuthController extends Controller
         try {
             $status = $this->authService->sendResetLink($request->validated());
             if ($status === Password::RESET_LINK_SENT) {
-                return  $this->apiResponse(null, 'The reset link has been sent to your email.');
+                return  $this->apiResponse(null, 'The reset link has been sent to your email.',200);
             }
-            return  $this->apiResponse(null, 'Failed to send reset link.', 400);
+            return  $this->apiResponse(null, 'Failed to send reset link.', 422);
         } catch (\Exception $e) {
             return $this->apiResponse(null, $e, 500);
         }
@@ -85,9 +85,9 @@ class AuthController extends Controller
         try {
             $status = $this->authService->resetPassword($request->validated());
             if ($status === Password::PASSWORD_RESET) {
-                return  $this->apiResponse(null, 'Password has been reset successfully.');
+                return  $this->apiResponse(null, 'Password has been reset successfully.',200);
             }
-            return $this->apiResponse(null, 'Invalid reset link or expired.', 400);
+            return $this->apiResponse(null, 'Invalid reset link or expired.', 422);
         } catch (\Exception $e) {
             return $this->apiResponse(null, $e, 500);
         }
@@ -110,7 +110,7 @@ class AuthController extends Controller
     {
         try {
             if ($request->user()->hasVerifiedEmail()) {
-                return $this->apiResponse(null, 'The email is already verified', 400);
+                return $this->apiResponse(null, 'The email is already verified', 200);
             }
 
             $request->user()->sendEmailVerificationNotification();

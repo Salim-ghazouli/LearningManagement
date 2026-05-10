@@ -28,7 +28,7 @@ class AdminController extends Controller
             }
             return $this->apiResponse(null, "Role assigned successfully", 200);
         } catch (Exception $e) {
-            return $this->apiResponse(null, "Failed to assign role: " . $e->getMessage(), 400);
+            return $this->apiResponse(null, "Failed to assign role: " . $e->getMessage(), 500);
         }
     }
     public function revokeRole(AssignRoleRequest $request)
@@ -42,7 +42,7 @@ class AdminController extends Controller
 
             return $this->apiResponse(null, "Role  revoked successfully.", 200);
         } catch (Exception $e) {
-            return $this->apiResponse(null, "Failed to revoke role: " . $e->getMessage(), 400);
+            return $this->apiResponse(null, "Failed to revoke role: " . $e->getMessage(), 500);
         }
     }
     public function updateRole(AssignRoleRequest $request)
@@ -52,7 +52,7 @@ class AdminController extends Controller
 
             return $this->apiResponse(null, "User role has been updated to  successfully.", 200);
         } catch (\Exception $e) {
-            return $this->apiResponse("Failed to update role: " . $e->getMessage(), 400);
+            return $this->apiResponse("Failed to update role: " . $e->getMessage(), 500);
         }
     }
 }

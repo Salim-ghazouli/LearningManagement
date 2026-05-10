@@ -22,6 +22,8 @@ class RolesAndPermissionsSeeder extends Seeder
             'Student',
         ];
 
+        
+
         foreach ($roles as $roleName) {
             Role::firstOrCreate([
                 'name' => $roleName,
