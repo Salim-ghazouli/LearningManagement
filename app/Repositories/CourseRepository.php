@@ -3,13 +3,16 @@
 namespace App\Repositories;
 
 use App\Models\Course;
+use Illuminate\Support\Facades\Auth;
 
 class CourseRepository
 {
 
     public function create(array $data)
     {
-        return Course::create($data);
+        $course = Course::create($data);
+        $course->instructors()->attach(Auth::id());
+        return $course;
     }
 
     public function findById($id)
@@ -29,7 +32,7 @@ class CourseRepository
     }
     public function getAll($filters = [])
     {
-        $query = Course::query()->with('instructor:id,username');
+        $query = Course::query()->with('instructors:id,username');
 
         if (!empty($filters)) {
             $query->filter($filters);

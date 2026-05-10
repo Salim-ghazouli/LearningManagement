@@ -17,12 +17,12 @@ Route::middleware(['auth:sanctum', 'role:Admin'])->group(function () {
     Route::post('/admin/revoke-role', [AdminController::class, 'revokeRole']);
     Route::post('/admin/update-role', [AdminController::class, 'updateRole']);
 });
-Route::middleware(['auth:sanctum', 'role:Instructor'])->group(function () {
+Route::middleware(['auth:sanctum', 'role:Admin'])->group(function () {
     Route::post('/courses/create', [CourseController::class, 'create_course']);
     Route::post('/courses/update', [CourseController::class, 'update']);
-    Route::post('/courses/delete', [CourseController::class, 'delete'])->middleware('role:Admin|Instructor');
-    Route::post('/courses/myCourses', [CourseController::class, 'getMyCourses']);
+    Route::post('/courses/delete/{id}', [CourseController::class, 'delete']);
 });
 Route::post('/courses/ShowCourses', [CourseController::class, 'Show_courses'])->middleware('auth:sanctum');
+Route::post('/courses/myCourses', [CourseController::class, 'getMyCourses'])->middleware('role:Instructor');
 
 

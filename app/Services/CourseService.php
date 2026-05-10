@@ -35,9 +35,7 @@ class CourseService
 
             $course = $this->courseRepo->findById($id);
 
-            if ($course->instructor_id !== Auth::id()) {
-                throw new Exception("Unauthorized action.", 403);
-            }
+            $isOwner = $course->instructors()->where('user_id', Auth::id())->exists();
             if ($data['price'] == 0) {
                 $data['is_free'] = true;
             }

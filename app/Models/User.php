@@ -39,13 +39,13 @@ class User extends Authenticatable implements MustVerifyEmail
         'is_active' => 'boolean',
     ];
 
-   
 
 
-    
-    public function instructorProfile()
+
+
+    public function teachingCourses()
     {
-        return $this->hasOne(InstructorProfile::class);
+        return $this->belongsToMany(Course::class, 'course_user');
     }
 
    

@@ -13,30 +13,34 @@ class Course extends Model
     {
         return $query
             ->when($filters['title'] ?? null, function ($q, $title) {
-                $q->where('title', 'like', "%$title%");
+                $q->where('courses.title', 'like', "%$title%");
             })
             ->when($filters['max_price'] ?? null, function ($q, $price) {
-                $q->where('price', '<=', $price);
+                $q->where('courses.price', '<=', $price);
             })
             ->when($filters['category'] ?? null, function ($q, $category) {
-                $q->where('category', $category);
+                $q->where('courses.category', $category);
             })
             ->when($filters['username'] ?? null, function ($q, $username) {
-                $q->join('users', 'courses.instructor_id', '=', 'users.id')
+                $q->join('course_user', 'courses.id', '=', 'course_user.course_id')
+                    ->join('users', 'course_user.user_id', '=', 'users.id')
                     ->where('users.username', 'like', "%$username%")
                     ->select('courses.*');
             })
             ->when($filters['instructor_id'] ?? null, function ($q, $instructor_id) {
-                $q->where('instructor_id', $instructor_id);
+                $q->join('course_user', 'courses.id', '=', 'course_user.course_id')
+                    ->where('course_user.user_id', $instructor_id)
+                    ->select('courses.*')
+                    ->distinct();
             });
     }
     public function lessons()
     {
         return $this->hasMany(Lesson::class);
     }
-    public function instructor()
+    public function instructors()
     {
-        return $this->belongsTo(User::class, 'instructor_id');
+        return $this->belongsToMany(User::class, 'course_user');
     }
     public function media()
     {
