@@ -39,7 +39,7 @@ class CourseController extends Controller
         try {
             $courses = $this->courseService->listCourses($request->all());
 
-            return $this->apiResponse($courses, 'Courses retrieved successfully',200);
+            return $this->apiResponse($courses, 'Courses retrieved successfully', 200);
         } catch (Exception $e) {
             return $this->apiResponse(null, $e->getMessage(), 500);
         }
@@ -49,7 +49,7 @@ class CourseController extends Controller
         try {
             $course = $this->courseService->updateCourse($request->all());
 
-            return $this->apiResponse($course, 'Course updated successfully',200);
+            return $this->apiResponse($course, 'Course updated successfully', 200);
         } catch (Exception $e) {
             return $this->apiResponse($e->getMessage(), 500);
         }
@@ -57,9 +57,10 @@ class CourseController extends Controller
     public function delete(DeleteCourseRequest $request)
     {
         try {
-            $this->courseService->deleteCourse($request->id);
+            $courseId = $request->validated()['course_id'] ?? $request->route('course_id');
+            $this->courseService->deleteCourse($courseId);
 
-            return $this->apiResponse(null, 'Course deleted successfully',200);
+            return $this->apiResponse(null, 'Course deleted successfully', 200);
         } catch (Exception $e) {
             return $this->apiResponse(null, $e->getMessage(), 500);
         }
@@ -73,7 +74,7 @@ class CourseController extends Controller
 
             $courses = $this->courseService->listCourses($filters);
 
-            return $this->apiResponse($courses, 'Your courses retrieved successfully',200);
+            return $this->apiResponse($courses, 'Your courses retrieved successfully', 200);
         } catch (\Exception $e) {
             return $this->apiResponse(null, "Failed to fetch your courses: " . $e->getMessage(), 500);
         }

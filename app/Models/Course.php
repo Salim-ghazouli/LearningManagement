@@ -4,9 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Course extends Model
+class Course extends Model implements HasMedia
 {
+    use InteractsWithMedia;
     protected $fillable = ['instructor_id', 'title', 'description', 'price', 'is_free', 'category'];
 
     public function scopeFilter(Builder $query, array $filters)
@@ -42,8 +45,13 @@ class Course extends Model
     {
         return $this->belongsToMany(User::class, 'course_user');
     }
-    public function media()
+
+    public function registerMediaCollections(): void
     {
-        return $this->morphMany(MediaFile::class, 'mediable');
+        $this->addMediaCollection('course_images')
+            ->acceptsMimeTypes(['image/jpeg', 'image/png']);
+
+        $this->addMediaCollection('files')
+            ->acceptsMimeTypes(['application/pdf']);
     }
 }

@@ -6,6 +6,11 @@ trait ApiResponseTrait
 {
     public static function apiResponse($data = null, $message = null, $status = 200)
     {
+        $status = is_int($status) ? $status : (int) $status;
+        if ($status < 100 || $status > 599) {
+            $status = 500;
+        }
+
         $array = [
             'data'    => $data,
             'message' => $message,

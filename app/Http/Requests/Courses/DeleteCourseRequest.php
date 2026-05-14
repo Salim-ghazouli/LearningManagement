@@ -20,7 +20,7 @@ class DeleteCourseRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => 'required|exists:courses,id',
+            'course_id' => 'required|exists:courses,id',
         ];
     }
     protected function failedValidation(Validator $validator)
