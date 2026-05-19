@@ -25,13 +25,13 @@
                 },
                 {
                   "key": "password",
-                  "value": "admintest123",
+                  "value": "admin1234",
                   "type": "text",
                   "uuid": "367f9a3c-a8e4-4e96-a457-7a8f168fbeca"
                 },
                 {
                   "key": "password_confirmation",
-                  "value": "admintest123",
+                  "value": "admin1234",
                   "type": "text",
                   "uuid": "863bec31-9b7c-4345-a564-aa45ca05731c"
                 }
@@ -65,31 +65,31 @@
               "formdata": [
                 {
                   "key": "full_name",
-                  "value": "mohamade23423",
+                  "value": "Student",
                   "type": "text",
                   "uuid": "e37fd76a-48c6-42dd-a599-7edc9548d101"
                 },
                 {
                   "key": "email",
-                  "value": "test3434.ghazouli@gmail.com",
+                  "value": "Student.test@gmail.com",
                   "type": "text",
                   "uuid": "c889be77-4034-4561-b7c1-f8b46aaeadbd"
                 },
                 {
                   "key": "password",
-                  "value": "test123456",
+                  "value": "Student1234",
                   "type": "text",
                   "uuid": "af3f2564-b915-4b6f-ad61-22588ea4661c"
                 },
                 {
                   "key": "username",
-                  "value": "testqweqwe",
+                  "value": "Student",
                   "type": "text",
                   "uuid": "fa4f9d04-5f10-4c29-afa8-50e691818e6a"
                 },
                 {
                   "key": "password_confirmation",
-                  "value": "test123456",
+                  "value": "Student1234",
                   "type": "text",
                   "uuid": "e5a78d23-ee43-4027-8787-54bea5a84885"
                 }
@@ -268,57 +268,6 @@
       "name": "Admin",
       "item": [
         {
-          "name": "assign-role",
-          "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "6|QOrtMdTwMtPx3QVpjXgZdQ28znhhDwFwBri96iMz2883133c",
-                  "type": "string"
-                }
-              ]
-            },
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "formdata",
-              "formdata": [
-                {
-                  "key": "user_id",
-                  "value": "8",
-                  "type": "text",
-                  "uuid": "cf59ca24-6b2a-463e-b94e-92cf077e5d8b"
-                },
-                {
-                  "key": "role_name",
-                  "value": "Admin",
-                  "type": "text",
-                  "uuid": "b5aaa2cb-4c1c-4bbf-8911-81118ac5c43c"
-                }
-              ]
-            },
-            "url": {
-              "raw": "http://127.0.0.1:8000/api/admin/assign-role",
-              "protocol": "http",
-              "host": [
-                "127",
-                "0",
-                "0",
-                "1"
-              ],
-              "port": "8000",
-              "path": [
-                "api",
-                "admin",
-                "assign-role"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
           "name": "revoke-role",
           "request": {
             "auth": {
@@ -326,7 +275,7 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "5|kN9dI5e6h85uILTCo9ipiRhJgqF9ZYTip5yYcHmD13e740d4",
+                  "value": "9|T313d6ms0u0qpOt9J6A89I8h4vO72V2TGAIVw3b8b3e5271b",
                   "type": "string"
                 }
               ]
@@ -340,18 +289,19 @@
                   "key": "user_id",
                   "value": "3",
                   "type": "text",
-                  "uuid": "cf59ca24-6b2a-463e-b94e-92cf077e5d8b"
+                  "uuid": "cf59ca24-6b2a-463e-b94e-92cf077e5d8b",
+                  "disabled": true
                 },
                 {
                   "key": "role_name",
-                  "value": "admin",
+                  "value": "Admin",
                   "type": "text",
                   "uuid": "b5aaa2cb-4c1c-4bbf-8911-81118ac5c43c"
                 }
               ]
             },
             "url": {
-              "raw": "http://127.0.0.1:8000/api/admin/revoke-role",
+              "raw": "http://127.0.0.1:8000/api/admin/revoke-role/{user_id}?user_id=3",
               "protocol": "http",
               "host": [
                 "127",
@@ -363,7 +313,14 @@
               "path": [
                 "api",
                 "admin",
-                "revoke-role"
+                "revoke-role",
+                "{user_id}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "3"
+                }
               ]
             }
           },
@@ -377,7 +334,71 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "7|HHanUtQ9TfrxrTK4vt8pXafEcBFYzYW6nMLEBbocd892e349",
+                  "value": "9|T313d6ms0u0qpOt9J6A89I8h4vO72V2TGAIVw3b8b3e5271b",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "user_id",
+                  "value": "3",
+                  "type": "text",
+                  "uuid": "cf59ca24-6b2a-463e-b94e-92cf077e5d8b"
+                },
+                {
+                  "key": "role_name",
+                  "value": "Instructor",
+                  "type": "text",
+                  "uuid": "b5aaa2cb-4c1c-4bbf-8911-81118ac5c43c"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/admin/update-role/{user_id}?user_id=3",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "admin",
+                "update-role",
+                "{user_id}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "3"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "assign-role",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "2|Qc9jUgmDM1yj1G1d5NWLJUbFt0jjUXtuQCNTLhuSb3de5c6d",
                   "type": "string"
                 }
               ]
@@ -391,7 +412,8 @@
                   "key": "user_id",
                   "value": "3",
                   "type": "text",
-                  "uuid": "cf59ca24-6b2a-463e-b94e-92cf077e5d8b"
+                  "uuid": "cf59ca24-6b2a-463e-b94e-92cf077e5d8b",
+                  "disabled": true
                 },
                 {
                   "key": "role_name",
@@ -402,7 +424,7 @@
               ]
             },
             "url": {
-              "raw": "http://127.0.0.1:8000/api/admin/update-role",
+              "raw": "http://127.0.0.1:8000/api/admin/assign-role/{user_id}?user_id=4",
               "protocol": "http",
               "host": [
                 "127",
@@ -414,7 +436,874 @@
               "path": [
                 "api",
                 "admin",
-                "update-role"
+                "assign-role",
+                "{user_id}"
+              ],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "4"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Courses",
+      "item": [
+        {
+          "name": "createCourse",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "13|yYZpg6V6p8WvQDlspgozuNNDsdk6juQzTaD0ENKV473d8a3b",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "title",
+                  "value": "testtesttestt2",
+                  "type": "text",
+                  "uuid": "1aadabf1-2150-4c19-b065-a532eb5b9f00"
+                },
+                {
+                  "key": "description",
+                  "value": "backend ",
+                  "type": "text",
+                  "uuid": "bb5a22a0-ef9d-49e5-992a-949fac987cd8"
+                },
+                {
+                  "key": "price",
+                  "value": "100",
+                  "type": "text",
+                  "uuid": "561329e0-5b6f-4248-8e96-e3ee9e5a0cd2"
+                },
+                {
+                  "key": "category",
+                  "value": "it",
+                  "type": "text",
+                  "uuid": "cb4c0578-69ca-45f6-a65a-a29627e79bd4"
+                },
+                {
+                  "key": "Instructor_id",
+                  "value": "3",
+                  "type": "text",
+                  "uuid": "8d1d8562-add5-460f-b83d-ad6b22c0089d"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/courses/create",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "courses",
+                "create"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "updateCourse",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "9|T313d6ms0u0qpOt9J6A89I8h4vO72V2TGAIVw3b8b3e5271b",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "title",
+                  "value": "laravel test",
+                  "type": "text",
+                  "uuid": "1aadabf1-2150-4c19-b065-a532eb5b9f00",
+                  "disabled": true
+                },
+                {
+                  "key": "description",
+                  "value": "backend test",
+                  "type": "text",
+                  "uuid": "bb5a22a0-ef9d-49e5-992a-949fac987cd8"
+                },
+                {
+                  "key": "price",
+                  "value": "30",
+                  "type": "text",
+                  "uuid": "561329e0-5b6f-4248-8e96-e3ee9e5a0cd2"
+                },
+                {
+                  "key": "category",
+                  "value": "its",
+                  "type": "text",
+                  "uuid": "cb4c0578-69ca-45f6-a65a-a29627e79bd4"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/courses/update/{course_id}?course_id=3",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "courses",
+                "update",
+                "{course_id}"
+              ],
+              "query": [
+                {
+                  "key": "course_id",
+                  "value": "3"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "deleteCourse",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "9|T313d6ms0u0qpOt9J6A89I8h4vO72V2TGAIVw3b8b3e5271b",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": []
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/courses/delete/{course_id}?course_id=6",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "courses",
+                "delete",
+                "{course_id}"
+              ],
+              "query": [
+                {
+                  "key": "course_id",
+                  "value": "6"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "showCourses",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "7|gjt08vqeyCCjVmxynOMlZGPHWjR0snn3GmFv9TjS6e5b6382",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "username",
+                  "value": "Instructor_2",
+                  "type": "text",
+                  "uuid": "4f21cc11-d4b9-4d65-8ad9-debfbbfa4f93"
+                },
+                {
+                  "key": "instructor_id",
+                  "value": "1",
+                  "type": "text",
+                  "uuid": "053f1da5-11d9-4102-b2e6-1179429eea2f",
+                  "disabled": true
+                },
+                {
+                  "key": "title",
+                  "value": "test",
+                  "type": "text",
+                  "uuid": "c3a25f9f-2889-4b66-ab00-69c4f63f328d",
+                  "disabled": true
+                },
+                {
+                  "key": "max_price",
+                  "value": "20",
+                  "type": "text",
+                  "uuid": "2fdec5c0-fcf2-4672-a782-608090605cdc",
+                  "disabled": true
+                },
+                {
+                  "key": "category",
+                  "value": "it",
+                  "type": "text",
+                  "uuid": "f6157fb8-35cb-4a98-8638-7b26aefd50e5",
+                  "disabled": true
+                },
+                {
+                  "key": "per_page",
+                  "value": "1",
+                  "type": "text",
+                  "uuid": "30ba4471-d25c-4e65-b1f5-eff97e509e51",
+                  "disabled": true
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/courses/ShowCourses",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "courses",
+                "ShowCourses"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "myCourses",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "8|fRYR6YKAhTrVjQRYRjkdKMkDSft7SzpHxfOzTRUka8015de9",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "title",
+                  "value": "test",
+                  "type": "text",
+                  "uuid": "c3a25f9f-2889-4b66-ab00-69c4f63f328d",
+                  "disabled": true
+                },
+                {
+                  "key": "category",
+                  "value": "it",
+                  "type": "text",
+                  "uuid": "f6157fb8-35cb-4a98-8638-7b26aefd50e5",
+                  "disabled": true
+                },
+                {
+                  "key": "per_page",
+                  "value": "1",
+                  "type": "text",
+                  "uuid": "30ba4471-d25c-4e65-b1f5-eff97e509e51",
+                  "disabled": true
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/courses/myCourses",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "courses",
+                "myCourses"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "uploadMediaCourses",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "9|T313d6ms0u0qpOt9J6A89I8h4vO72V2TGAIVw3b8b3e5271b",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "course_images[]",
+                  "type": "file",
+                  "uuid": "98f8c2ca-c6bb-4391-b75a-a68a9290fc6b",
+                  "src": [
+                    "",
+                    "/C:/Users/ASUS/Pictures/Screenshots/4_2.png"
+                  ]
+                },
+                {
+                  "key": "course_files[]",
+                  "type": "file",
+                  "uuid": "e8faa4d6-80aa-44cf-91b6-dea8cb55196f",
+                  "src": [
+                    "",
+                    "/C:/Users/ASUS/Desktop/FinalProject.pdf"
+                  ]
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/courses/media/upload/{course_id}?course_id=7",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "courses",
+                "media",
+                "upload",
+                "{course_id}"
+              ],
+              "query": [
+                {
+                  "key": "course_id",
+                  "value": "7"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "deleteMediaCourses",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "9|T313d6ms0u0qpOt9J6A89I8h4vO72V2TGAIVw3b8b3e5271b",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": []
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/courses/media/delete/{media_id}?media_id=30",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "courses",
+                "media",
+                "delete",
+                "{media_id}"
+              ],
+              "query": [
+                {
+                  "key": "media_id",
+                  "value": "30"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "updateMediaCourses",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "9|T313d6ms0u0qpOt9J6A89I8h4vO72V2TGAIVw3b8b3e5271b",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "course_images[]",
+                  "type": "file",
+                  "uuid": "a8be1b40-e695-4728-9587-679601e40aaf",
+                  "src": "/C:/Users/ASUS/Pictures/Screenshots/4_3.png"
+                },
+                {
+                  "key": "course_files[]",
+                  "type": "file",
+                  "uuid": "f72be3a5-3c60-4bbb-b213-91ed8b933612",
+                  "src": "/C:/Users/ASUS/Documents/شبكة الغازات الطبية لمشفى أمية دمشق (1).pdf"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/courses/media/update/{course_id}?course_id=7",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "courses",
+                "media",
+                "update",
+                "{course_id}"
+              ],
+              "query": [
+                {
+                  "key": "course_id",
+                  "value": "7"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Lesson",
+      "item": [
+        {
+          "name": "createLesson",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "12|WJTzMgv7tMQMtLQdPhSA6U19HSoo8qGt3RLYt01C6162655b",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "course_id",
+                  "value": "7",
+                  "type": "text",
+                  "uuid": "711b1504-cc5c-4eba-86b4-4acda507d899"
+                },
+                {
+                  "key": "title",
+                  "value": "lesson1",
+                  "type": "text",
+                  "uuid": "5ec0b108-8419-469c-896b-51f2e7bfd0d8"
+                },
+                {
+                  "key": "description",
+                  "value": "test",
+                  "type": "text",
+                  "uuid": "372ca037-c605-4297-93cf-077656788559"
+                },
+                {
+                  "key": "order",
+                  "value": "1",
+                  "type": "text",
+                  "uuid": "8c6c233c-cd66-4248-8037-e7f3964184d0"
+                },
+                {
+                  "key": "files[]",
+                  "type": "file",
+                  "uuid": "c3dcfa4c-159a-4a2c-b851-ffb90cc156c7",
+                  "src": "/C:/Users/ASUS/Desktop/test.zip"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/lessons/create",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "lessons",
+                "create"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "updateLesson",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "12|WJTzMgv7tMQMtLQdPhSA6U19HSoo8qGt3RLYt01C6162655b",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "title",
+                  "value": "lesson1",
+                  "type": "text",
+                  "uuid": "5ec0b108-8419-469c-896b-51f2e7bfd0d8"
+                },
+                {
+                  "key": "description",
+                  "value": "test",
+                  "type": "text",
+                  "uuid": "372ca037-c605-4297-93cf-077656788559"
+                },
+                {
+                  "key": "order",
+                  "value": "1",
+                  "type": "text",
+                  "uuid": "8c6c233c-cd66-4248-8037-e7f3964184d0"
+                },
+                {
+                  "key": "files[]",
+                  "type": "file",
+                  "uuid": "c3dcfa4c-159a-4a2c-b851-ffb90cc156c7",
+                  "src": "/C:/Users/ASUS/Desktop/test.zip"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/lessons/update/{lesson_id}?lesson_id=2",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "lessons",
+                "update",
+                "{lesson_id}"
+              ],
+              "query": [
+                {
+                  "key": "lesson_id",
+                  "value": "2"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "deleteLsson",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "9|T313d6ms0u0qpOt9J6A89I8h4vO72V2TGAIVw3b8b3e5271b",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": []
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/lessons/delete/{lesson_id}?lesson_id=3",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "lessons",
+                "delete",
+                "{lesson_id}"
+              ],
+              "query": [
+                {
+                  "key": "lesson_id",
+                  "value": "3"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "showLessonsByCourse",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "12|WJTzMgv7tMQMtLQdPhSA6U19HSoo8qGt3RLYt01C6162655b",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": []
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/lessons/byCourse/{course_id}?course_id=7",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "lessons",
+                "byCourse",
+                "{course_id}"
+              ],
+              "query": [
+                {
+                  "key": "course_id",
+                  "value": "7"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "showLesson",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "9|T313d6ms0u0qpOt9J6A89I8h4vO72V2TGAIVw3b8b3e5271b",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": []
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/lessons/get/{lesson_id}?lesson_id=4",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "lessons",
+                "get",
+                "{lesson_id}"
+              ],
+              "query": [
+                {
+                  "key": "lesson_id",
+                  "value": "4"
+                }
               ]
             }
           },
