@@ -14,8 +14,12 @@ class CourseRepository
     public function create(array $data)
     {
         $course = Course::create($data);
-        $course->instructors()->attach(Auth::id());
-        return $course;
+
+        $instructorId = $data['Instructor_id'] ;
+
+        if ($instructorId) {
+            $course->instructors()->attach($instructorId);
+        }
     }
 
     public function findById($id)
@@ -59,7 +63,7 @@ class CourseRepository
             ->map(fn($name) => strtolower($name))
             ->toArray();
 
-        $existingFileNames = $course->getMedia('files')
+        $existingFileNames = $course->getMedia('course_files')
             ->pluck('file_name')
             ->map(fn($name) => strtolower($name))
             ->toArray();

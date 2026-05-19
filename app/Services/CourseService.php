@@ -18,10 +18,7 @@ class CourseService
     public function createCourse(array $data)
     {
         try {
-            $data['instructor_id'] = Auth::id();
-            if ($data['price'] == 0) {
-                $data['is_free'] = true;
-            }
+           
             return $this->courseRepo->create($data);
         } catch (Exception $e) {
             throw new Exception("Error creating course: " . $e->getMessage());

@@ -31,8 +31,6 @@ return new class extends Migration
     {
         Schema::dropIfExists('course_user');
 
-        Schema::table('courses', function (Blueprint $table) {
-            $table->foreignId('instructor_id')->constrained('users')->onDelete('cascade');
-        });
+      
     }
 };

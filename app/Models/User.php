@@ -13,7 +13,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, Notifiable, SoftDeletes,HasRoles;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes, HasRoles;
 
     protected $guard_name = 'api';
     protected $fillable = [
@@ -26,13 +26,13 @@ class User extends Authenticatable implements MustVerifyEmail
         'last_login_at',
     ];
 
-    
+
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    
+
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
@@ -48,15 +48,20 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsToMany(Course::class, 'course_user');
     }
 
-   
+
     public function studentProfile()
     {
         return $this->hasOne(StudentProfile::class);
     }
 
-    
+
     public function uploadedMedia()
     {
         return $this->hasMany(MediaFile::class, 'uploaded_by');
+    }
+    public function enrolledCourses()
+    {
+        return $this->belongsToMany(Course::class, 'course_user', 'user_id', 'course_id')
+            ->withTimestamps();
     }
 }

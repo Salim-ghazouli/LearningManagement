@@ -41,10 +41,7 @@ class Course extends Model implements HasMedia
     {
         return $this->hasMany(Lesson::class);
     }
-    public function instructors()
-    {
-        return $this->belongsToMany(User::class, 'course_user');
-    }
+    
 
     public function registerMediaCollections(): void
     {
@@ -53,5 +50,17 @@ class Course extends Model implements HasMedia
 
         $this->addMediaCollection('files')
             ->acceptsMimeTypes(['application/pdf']);
+    }
+    public function students()
+    {
+        // تفترض هذه العلاقة أن جدول الـ pivot يربط الكورس بالمستخدمين الذين يملكون دور طالب
+        return $this->belongsToMany(User::class, 'course_user', 'course_id', 'user_id')
+            ->withTimestamps();
+    }
+    public function instructors()
+    {
+        // تفترض هذه العلاقة وجود جدول وسيط يربط المدرسين بالكورسات (مثلاً باسم course_instructor أو حسب ما سميته في قواعد البيانات لديك)
+        return $this->belongsToMany(User::class, 'course_user', 'course_id', 'user_id')
+            ->withTimestamps();
     }
 }
