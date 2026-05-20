@@ -1312,6 +1312,494 @@
       ]
     },
     {
+      "name": "Review",
+      "item": [
+        {
+          "name": "createReview",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "15|C8TBNwlj8AVjNnNHi62GrqmrQjSaVKpQpg2d4spJ8291d452",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "course_id",
+                  "value": "7",
+                  "type": "text",
+                  "uuid": "5c40e72d-a171-42f4-966a-550d0af0fc74"
+                },
+                {
+                  "key": "rating",
+                  "value": "2",
+                  "type": "text",
+                  "uuid": "4d3de218-5d79-4409-aef6-055667587cba"
+                },
+                {
+                  "key": "comment",
+                  "value": "good",
+                  "type": "text",
+                  "uuid": "945b350b-a001-4eaa-92dd-c848aaa8e0c6"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/reviews/create",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "reviews",
+                "create"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "updateReview",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "15|C8TBNwlj8AVjNnNHi62GrqmrQjSaVKpQpg2d4spJ8291d452",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "rating",
+                  "value": "2",
+                  "type": "text",
+                  "uuid": "4d3de218-5d79-4409-aef6-055667587cba"
+                },
+                {
+                  "key": "comment",
+                  "value": "good",
+                  "type": "text",
+                  "uuid": "945b350b-a001-4eaa-92dd-c848aaa8e0c6"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/reviews/update/{review_id}?review_id=1",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "reviews",
+                "update",
+                "{review_id}"
+              ],
+              "query": [
+                {
+                  "key": "review_id",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "showReviewByCours",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "15|C8TBNwlj8AVjNnNHi62GrqmrQjSaVKpQpg2d4spJ8291d452",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": []
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/courses/reviews/{course_id}?course_id=7&page=1&per_page=5",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "courses",
+                "reviews",
+                "{course_id}"
+              ],
+              "query": [
+                {
+                  "key": "course_id",
+                  "value": "7"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "per_page",
+                  "value": "5"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "deleteReview",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "16|KuUGGBFE8h1AXhFCZVdusnbGe0sV84meOsayIlXV7c017fe7",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/reviews/destroy/{review_id}?review_id=2",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "reviews",
+                "destroy",
+                "{review_id}"
+              ],
+              "query": [
+                {
+                  "key": "review_id",
+                  "value": "2"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "News",
+      "item": [
+        {
+          "name": "createNews",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "17|Wq8gXwbldIe6yyMFXGabmt8YRzv7uYkEdgpJN4Tfd1e5d975",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "title",
+                  "value": "ksjavdu",
+                  "type": "text",
+                  "uuid": "5c40e72d-a171-42f4-966a-550d0af0fc74"
+                },
+                {
+                  "key": "content",
+                  "value": "adsaln",
+                  "type": "text",
+                  "uuid": "4d3de218-5d79-4409-aef6-055667587cba"
+                },
+                {
+                  "key": "order",
+                  "value": "2",
+                  "type": "text",
+                  "uuid": "945b350b-a001-4eaa-92dd-c848aaa8e0c6"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/news/create",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "news",
+                "create"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "updateNews",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "17|Wq8gXwbldIe6yyMFXGabmt8YRzv7uYkEdgpJN4Tfd1e5d975",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "title",
+                  "value": "asas",
+                  "type": "text",
+                  "uuid": "3aba73e7-05f9-4f07-ac2e-5b1a29b7d7a7"
+                },
+                {
+                  "key": "content",
+                  "value": "asas",
+                  "type": "text",
+                  "uuid": "66e02cbb-ea61-43cc-87f2-d6799eb1022c"
+                },
+                {
+                  "key": "order",
+                  "value": "1",
+                  "type": "text",
+                  "uuid": "aa6302eb-451c-4d1f-893d-4cf599a086f7"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/news/update/{new_id}?new_id=1",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "news",
+                "update",
+                "{new_id}"
+              ],
+              "query": [
+                {
+                  "key": "new_id",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "shownews",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "17|Wq8gXwbldIe6yyMFXGabmt8YRzv7uYkEdgpJN4Tfd1e5d975",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": []
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/news/latestnews?page=1&per_page=5",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "news",
+                "latestnews"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "per_page",
+                  "value": "5"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "deleteNews",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "17|Wq8gXwbldIe6yyMFXGabmt8YRzv7uYkEdgpJN4Tfd1e5d975",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": []
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/api/news/destroy/{new_id}?new_id=2",
+              "protocol": "http",
+              "host": [
+                "127",
+                "0",
+                "0",
+                "1"
+              ],
+              "port": "8000",
+              "path": [
+                "api",
+                "news",
+                "destroy",
+                "{new_id}"
+              ],
+              "query": [
+                {
+                  "key": "new_id",
+                  "value": "2",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
       "name": "New Request",
       "request": {
         "auth": {
