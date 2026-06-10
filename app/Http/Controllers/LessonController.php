@@ -21,7 +21,6 @@ class LessonController extends Controller
         $this->lessonService = $lessonService;
     }
 
-    // 1. Create
     public function create(CreateLessonRequest $request)
     {
         try {
@@ -32,7 +31,6 @@ class LessonController extends Controller
         }
     }
 
-    // 2. Read (Show)
     public function show(DestroyLessonRequest $request)
     {
         try {
@@ -43,7 +41,6 @@ class LessonController extends Controller
         }
     }
 
-    // 3. Update
     public function update(UpdateLessonRequest $request)
     {
         try {
@@ -54,7 +51,7 @@ class LessonController extends Controller
         }
     }
 
-    // 4. Delete
+  
     public function destroy(DestroyLessonRequest $request)
     {
         try {

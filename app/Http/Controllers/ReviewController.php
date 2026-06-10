@@ -22,7 +22,6 @@ class ReviewController extends Controller
         $this->reviewService = $reviewService;
     }
 
-    // 1. إنشاء تقييم جديد لكورس معين (طالب + مدرس + أدمن)
     public function create(StoreReviewRequest $request)
     {
         try {
@@ -33,7 +32,6 @@ class ReviewController extends Controller
         }
     }
 
-    // 2. تحديث التقييم (فقط لصاحب التقييم أو الأدمن)
     public function update(UpdateReviewRequest $request)
     {
         try {
@@ -44,7 +42,6 @@ class ReviewController extends Controller
         }
     }
 
-    // 3. حذف التقييم (فقط لصاحب التقييم أو الأدمن)
     public function destroy(DestroyReviewRequest $request)
     {
         try {
@@ -55,7 +52,6 @@ class ReviewController extends Controller
         }
     }
 
-    // 4. جلب جميع مراجعات كورس معين (عام ومتاح للجميع)
     public function show_review_ByCourse(ShowReviewRequest $request)
     {
         try {

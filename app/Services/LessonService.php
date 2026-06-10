@@ -17,7 +17,6 @@ class LessonService
         $this->lessonRepo = $lessonRepo;
     }
 
-    // شروط الإضافة: الأدمن للكل، والمدرس لكورساته فقط (المتطلب 1 و 2 و 3)
     public function storeLesson(array $data)
     {
         $user = User::find(Auth::id());
@@ -33,7 +32,6 @@ class LessonService
         return $this->lessonRepo->create($data);
     }
 
-    // شروط التعديل: الأدمن أو المدرس المالك للكورس (المتطلب 1)
     public function updateLesson(array $data)
     {
         $user = User::find(Auth::id());
@@ -50,7 +48,6 @@ class LessonService
         return $this->lessonRepo->update($data);
     }
 
-    // جلب الدرس وفحص الـ Enrollment لمنع الوصول غير المصرح به (المتطلب 5)
     public function getLessonDetails($id)
     {
         $user = User::find(Auth::id());
@@ -67,7 +64,6 @@ class LessonService
         return $lesson;
     }
 
-    // شروط الحذف: الأدمن أو المدرس المالك للكورس (المتطلب 1)
     public function destroyLesson($id)
     {
         $user = User::find(Auth::id());
@@ -88,7 +84,6 @@ class LessonService
         $user = User::find(Auth::id());
         $course = Course::findOrFail($courseId);
 
-        // حماية المحتوى: إذا كان مستخدم عادي/طالب، نمنع الوصول لو مش مسجل (المتطلب 5)
         if ($user->hasRole('Student')) {
             $isEnrolled = $course->students()->where('user_id', $user->id)->exists();
             if (!$isEnrolled) {
@@ -96,7 +91,6 @@ class LessonService
             }
         }
 
-        // إذا كان أدمن أو مدرس أو طالب مسجل، يمرر الطلب بنجاح
         return $this->lessonRepo->getLessonsByCourseId($courseId);
     }
 }

@@ -17,7 +17,6 @@ class NewsService
         $this->newsRepo = $newsRepo;
     }
 
-    // التحقق الوقائي الإضافي للتأكد أن المستخدم الحالي أدمن
     protected function checkAdmin()
     {
         $user = User::find(Auth::id());
@@ -46,7 +45,6 @@ class NewsService
 
     public function getLatestNews($perPage = 10)
     {
-        // عرض الأخبار متاح للجميع (بدون قيد الأدمن) لزوار الموقع
         return $this->newsRepo->getAllOrdered($perPage);
     }
 }

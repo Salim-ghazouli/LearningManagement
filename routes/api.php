@@ -8,13 +8,16 @@ use App\Http\Controllers\CourseMediaController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\EnrollmentController;
+use App\Http\Controllers\CouponController;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/password/email', [AuthController::class, 'sendResetLinkEmail'])->name('password.email');
 Route::post('/password/reset', [AuthController::class, 'reset'])->name('password.update');
 Route::get('/lessons/{id}', [LessonController::class, 'show']);
-Route::middleware(['auth:sanctum'])->group(function () {
+Route::middleware(['auth:sanctum'])->group(
+    function () {
         Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
         Route::post('/courses/ShowCourses', [CourseController::class, 'Show_courses'])->middleware('auth:sanctum');
         Route::get('/lessons/get/{lesson_id}', [LessonController::class, 'show']);
@@ -46,7 +49,7 @@ Route::middleware(['auth:sanctum', 'role:Instructor'])->group(function () {
 });
 Route::middleware(['auth:sanctum', 'role:Admin|Instructor'])->group(function () {
     Route::post('/lessons/create', [LessonController::class, 'create']);
-    Route::post('/lessons/update/{lesson_id}', [LessonController::class, 'update']); // نستخدم POST هنا لدعم رفع الملفات عبر الـ form-data في PHP عند التحديث
+    Route::post('/lessons/update/{lesson_id}', [LessonController::class, 'update']);
     Route::delete('/lessons/delete/{lesson_id}', [LessonController::class, 'destroy']);
 });
 Route::middleware(['role:Admin|Instructor|Student', 'auth:sanctum'])->group(function () {
@@ -55,3 +58,25 @@ Route::middleware(['role:Admin|Instructor|Student', 'auth:sanctum'])->group(func
     Route::delete('/reviews/destroy/{review_id}', [ReviewController::class, 'destroy']);
 });
 Route::get('/courses/reviews/{course_id}', [ReviewController::class, 'show_review_ByCourse']);
+Route::middleware(['auth:sanctum'])->group(function () {
+
+    Route::middleware(['role:Admin|Instructor|Student'])->group(function () {
+        Route::post('/enrollments', [EnrollmentController::class, 'enroll']);
+        Route::post('/myErolledCurses', [EnrollmentController::class, 'myCourses']);
+    });
+
+    Route::middleware(['role:Admin|Instructor'])->group(function () {
+        Route::get('/courses/students/{courseId}', [EnrollmentController::class, 'courseStudents']);
+        Route::post('/enrollments/updateSatus', [EnrollmentController::class, 'updateStatus']);
+    });
+});
+Route::middleware(['auth:sanctum'])->group(function () {
+
+    Route::middleware(['role:Admin'])->group(function () {
+        Route::post('/coupons', [CouponController::class, 'store']);
+    });
+
+    Route::middleware(['role:Admin|Instructor|Student'])->group(function () {
+        Route::post('/coupons/calculatePrice', [CouponController::class, 'calculate']);
+    });
+});

@@ -19,7 +19,7 @@ class ReviewService
 
     public function storeReview(array $data)
     {
-        $data['user_id'] = Auth::id(); // إسناد التقييم تلقائياً للمستخدم الحالي
+        $data['user_id'] = Auth::id();  
         return $this->reviewRepo->create($data);
     }
 
@@ -28,7 +28,6 @@ class ReviewService
         $review = $this->reviewRepo->findById($data['review_id']);
         $user = User::find(Auth::id());
 
-        // التحقق: فقط صاحب التقييم أو الأدمن يمكنه التعديل
         if ($user->id !== $review->user_id && !$user->hasRole('Admin')) {
             throw new Exception("Unauthorized. You can only update your own reviews.", 403);
         }

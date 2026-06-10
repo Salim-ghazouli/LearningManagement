@@ -29,7 +29,6 @@ class NewsRepository
         return $news->delete();
     }
 
-    // جلب الأخبار مرتبة بناءً على المتطلبات (المتطلب رقم 4)
     public function getAllOrdered($perPage = 10)
     {
         return News::orderBy('order', 'asc')->paginate($perPage);

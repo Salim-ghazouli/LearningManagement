@@ -23,7 +23,6 @@ class NewsController extends Controller
         $this->newsService = $newsService;
     }
 
-    // 1. إضافة خبر جديد (الأدمن فقط)
     public function store(StoreNewsRequest $request)
     {
         try {
@@ -34,7 +33,6 @@ class NewsController extends Controller
         }
     }
 
-    // 2. تعديل خبر (الأدمن فقط)
     public function update(UpdateNewsRequest $request)
     {
         try {
@@ -45,7 +43,6 @@ class NewsController extends Controller
         }
     }
 
-    // 3. حذف خبر (الأدمن فقط)
     public function destroy(DestroyNewsRequest $request)
     {
         try {
@@ -56,7 +53,6 @@ class NewsController extends Controller
         }
     }
 
-    // 4. عرض كافة الأخبار مرتبة بالتسلسل (متاح للزوار والجميع في الموقع)
     public function index(ShowNewsRequest $request)
     {
         try {
