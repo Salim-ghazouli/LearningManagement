@@ -19,14 +19,27 @@ class EnrollmentService
 
     public function enrollStudent(array $data)
     {
-        $userId = $data['user_id'] ?? Auth::id();
-        $courseId = $data['course_id'];
+        $user_id = $data['user_id'] ?? Auth::id();
+        $course_id = $data['course_id'];
 
-        if ($this->enrollmentRepo->checkEnrollmentExists($userId, $courseId)) {
+        if ($this->enrollmentRepo->checkEnrollmentExists($user_id, $course_id)) {
             throw new Exception("Duplicate enrollment detected. Student is already enrolled in this course.", 400);
         }
+        $course = \App\Models\Course::findOrFail($course_id);
 
-        return $this->enrollmentRepo->enroll($userId, $courseId, 'pending');
+        if ($course->is_free || $course->price <= 0) {
+            return $this->enrollmentRepo->enroll($user_id, $course_id, 'active');
+        }
+        $hasPaid = \App\Models\Transaction::where('user_id', $user_id)
+            ->where('course_id', $course_id)
+            ->where('status', 'completed')
+            ->exists();
+        if (!$hasPaid) {
+            throw new Exception("Access Denied. You must purchase the course via Stripe first before enrolling.", 402);
+        }
+
+
+        return $this->enrollmentRepo->enroll($user_id, $course_id, 'active');
     }
 
     public function getStudentCourses($request)

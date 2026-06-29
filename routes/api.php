@@ -10,6 +10,7 @@ use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\CouponController;
+use App\Http\Controllers\PaymentController;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -80,3 +81,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('/coupons/calculatePrice', [CouponController::class, 'calculate']);
     });
 });
+
+
+
+Route::middleware(['auth:sanctum', 'role:Student|Admin'])->group(function () {
+    Route::post('/payment/checkout', [PaymentController::class, 'checkout']); //4242  4242  4242  4242
+});
+
+Route::post('/stripe/webhook', [PaymentController::class, 'webhook']);
+Route::get('/payment/success', [PaymentController::class, 'success']);
+Route::get('/payment/cancel', [PaymentController::class, 'cancel']);
