@@ -19,6 +19,8 @@ class LoginRequest extends FormRequest
         return [
             'username' => 'required|string',
             'password' => 'required|confirmed',
+            'fcm_token'   => 'nullable|string',
+            'device_type' => 'nullable|string|in:android,ios,web',
         ];
     }
     protected function failedValidation(Validator $validator)

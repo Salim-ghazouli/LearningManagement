@@ -11,7 +11,11 @@ use App\Http\Controllers\NewsController;
 use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\CouponController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\DeviceController;
+use App\Http\Controllers\ChatController;
+use Illuminate\Support\Facades\Broadcast;
 
+Broadcast::routes(['middleware' => ['auth:sanctum']]);
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/password/email', [AuthController::class, 'sendResetLinkEmail'])->name('password.email');
@@ -19,6 +23,7 @@ Route::post('/password/reset', [AuthController::class, 'reset'])->name('password
 Route::get('/lessons/{id}', [LessonController::class, 'show']);
 Route::middleware(['auth:sanctum'])->group(
     function () {
+        Route::post('/devices/register/token', [DeviceController::class, 'storeToken']);
         Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
         Route::post('/courses/ShowCourses', [CourseController::class, 'Show_courses'])->middleware('auth:sanctum');
         Route::get('/lessons/get/{lesson_id}', [LessonController::class, 'show']);
@@ -91,3 +96,10 @@ Route::middleware(['auth:sanctum', 'role:Student|Admin'])->group(function () {
 Route::post('/stripe/webhook', [PaymentController::class, 'webhook']);
 Route::get('/payment/success', [PaymentController::class, 'success']);
 Route::get('/payment/cancel', [PaymentController::class, 'cancel']);
+
+Route::middleware('auth:sanctum')->group(function () {
+    // مسارات نظام المحادثات
+    Route::post('/chat/conversation', [ChatController::class, 'startConversation']);
+    Route::post('/chat/message', [ChatController::class, 'sendMessage']);
+    Route::post('/chat/conversation/messages', [ChatController::class, 'getMessages']);
+});

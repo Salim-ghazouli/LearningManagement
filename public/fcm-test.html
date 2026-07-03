@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Firebase Real Token Tester</title>
+</head>
+
+<body>
+    <h2>Firebase Cloud Messaging Token Generator</h2>
+    <button id="btn-token">Get My Real FCM Token</button>
+    <p>Your Token:</p>
+    <textarea id="token-box" rows="5" cols="60" readonly style="width:100%; font-family:monospace;"></textarea>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
+        import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-messaging.js";
+
+        // إعدادات مشروعك الحقيقي
+        const firebaseConfig = {
+            apiKey: "AIzaSyApIzl1uy6clfvPKs7W9e54Io1IP6b5JRY",
+            authDomain: "imst-b2007.firebaseapp.com",
+            projectId: "imst-b2007",
+            storageBucket: "imst-b2007.firebasestorage.app",
+            messagingSenderId: "613940030216",
+            appId: "1:613940030216:web:7363bd0b71117efc1fdabd",
+            measurementId: "G-1RTB5Q83MK"
+        };
+
+        // تهيئة فايربيس والـ Messaging بالأسلوب الحديث
+        const app = initializeApp(firebaseConfig);
+        const messaging = getMessaging(app);
+
+        // ربط الحدث بالزر بشكل نظيف متوافق مع الـ Module
+        document.getElementById('btn-token').addEventListener('click', () => {
+            Notification.requestPermission().then((permission) => {
+                if (permission === 'granted') {
+                    console.log('Notification permission granted. Fetching token...');
+
+                    // جلب التوكن الفعلي
+                    // ملاحظة: يجب توليد الـ Key من لوحة تحكم Firebase (Settings -> Cloud Messaging -> Web Push certificates) واستبداله بالكامل بالأسفل
+                    getToken(messaging, { vapidKey: 'BA9r5a9Dvg3STZI91UeGYq-6nCqo_0HO-5aXWLku-l0TluM9_gqrk0fg6C2dlBlOtBasT3OX-n4qi5vwcGqKseg' })
+                        .then((currentToken) => {
+                            if (currentToken) {
+                                document.getElementById('token-box').value = currentToken;
+                                console.log('Real Token:', currentToken);
+                            } else {
+                                alert('No registration token available. Request permission to generate one.');
+                            }
+                        }).catch((err) => {
+                            console.error('Full Firebase Error Details:', err);
+                            alert('Error retrieving token. Check Console logs.');
+                        });
+                } else {
+                    alert('Permission denied. Please reset notification permissions for this site.');
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

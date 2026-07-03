@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IMST Real-Time Chat Room</title>
+    <script src="https://js.pusher.com/8.3.0/pusher.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f2f5;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .chat-container {
+            width: 100%;
+            max-width: 450px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 80vh;
+        }
+
+        .chat-header {
+            background: #007bff;
+            color: white;
+            padding: 15px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .config-box {
+            padding: 10px;
+            background: #eee;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            font-size: 12px;
+        }
+
+        .config-box input {
+            padding: 6px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .messages-box {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background: #fafafa;
+        }
+
+        .msg {
+            padding: 10px 14px;
+            border-radius: 15px;
+            max-width: 70%;
+            word-break: break-all;
+            font-size: 14px;
+        }
+
+        .msg.me {
+            background: #007bff;
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 0;
+        }
+
+        .msg.other {
+            background: #e4e6eb;
+            color: black;
+            align-self: flex-start;
+            border-bottom-left-radius: 0;
+        }
+
+        .input-box {
+            display: flex;
+            border-top: 1px solid #ddd;
+            padding: 10px;
+            background: #fff;
+        }
+
+        .input-box input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            outline: none;
+        }
+
+        .input-box button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 0 15px;
+            margin-left: 5px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="chat-container">
+        <div class="chat-header">IMST Chat Room</div>
+
+        <div class="config-box">
+            <input type="text" id="auth-token" placeholder="Paste Laravel Sanctum Bearer Token">
+            <pre id="debug"
+                style="margin:6px 0;padding:6px;background:#111;color:#0f0;font-size:11px;overflow:auto;max-height:120px;">Debug output...</pre>
+            <div style="display: flex; gap: 5px;">
+                <input type="number" id="conv-id" value="1" placeholder="Conv ID" style="width: 30%;">
+                <input type="number" id="my-user-id" placeholder="My User ID (e.g. 4)" style="width: 70%;">
+            </div>
+            <button onclick="initChat()"
+                style="background: #28a745; color: white; border: none; padding: 8px; cursor: pointer; border-radius: 4px; font-weight: bold;">Connect
+                & Load Chat</button>
+        </div>
+
+        <div class="messages-box" id="messages-box">
+            <div class="msg other" style="align-self: center; background: none; color: #666;">اضغط على Connect لبدء
+                تحميل المحادثة...</div>
+        </div>
+
+        <div class="input-box">
+            <input type="text" id="message-input" placeholder="Type a message...">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <script>
+        // إعدادات الـ Pusher الخاصة بك
+        const PUSHER_KEY = '88ae7ab6828de0ca48e1';
+        const PUSHER_CLUSTER = 'eu';
+
+        let pusher = null;
+        let channel = null;
+
+        // دالة البدء: تجلب الأرشيف بالرابط الجديد، ثم تشترك في البث المباشر
+        function initChat() {
+            const token = document.getElementById('auth-token').value.trim();
+            const convId = document.getElementById('conv-id').value;
+            const debugEl = document.getElementById('debug');
+
+            function dbg(...args) {
+                try { console.log(...args); } catch (e) { }
+                debugEl.innerText = (new Date()).toLocaleTimeString() + ' ' + args.map(a => typeof a === 'object' ? JSON.stringify(a, null, 2) : String(a)).join(' ');
+            }
+
+            if (!token) { alert('Please enter your Laravel Bearer Token!'); return; }
+
+            // 1. جلب الرسائل السابقة واطّلاع على الاستجابة للتصحيح
+            dbg('Fetching conversation messages', { conversation_id: convId });
+            fetch(`http://127.0.0.1:8000/api/chat/conversation/messages`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    conversation_id: parseInt(convId)
+                })
+            })
+                .then(res => res.json())
+                .then(resData => {
+                    dbg('Messages response', resData);
+                    if (resData.status) {
+                        const msgBox = document.getElementById('messages-box');
+                        msgBox.innerHTML = ''; // تنظيف الشاشة
+
+                        // قراءة الرسائل وتحديد اتجاه الفقاعة
+                        resData.data.forEach(msg => {
+                            const myId = document.getElementById('my-user-id').value;
+                            const side = parseInt(msg.sender_id) === parseInt(myId) ? 'me' : 'other';
+                            appendMessageToScreen(msg.message, side);
+                        });
+                    } else {
+                        dbg('Error loading messages:', resData.message || resData);
+                        alert('Error loading messages: ' + (resData.message || JSON.stringify(resData)));
+                    }
+                })
+                .catch(err => dbg('Error fetching old messages:', err));
+
+            // 2. ربط الـ Pusher للاستماع للرسائل الحية
+            if (pusher) pusher.disconnect();
+
+            pusher = new Pusher(PUSHER_KEY, {
+                cluster: PUSHER_CLUSTER,
+                forceTLS: true,
+                authEndpoint: 'http://127.0.0.1:8000/api/broadcasting/auth',
+                auth: { headers: { 'Authorization': 'Bearer ' + token, 'Accept': 'application/json' } }
+            });
+
+            pusher.connection.bind('connected', () => dbg('Pusher connected'));
+            pusher.connection.bind('error', (err) => dbg('Pusher connection error', err));
+
+            channel = pusher.subscribe('private-chat.' + convId);
+            channel.bind('pusher:subscription_succeeded', () => dbg('Subscribed to', 'private-chat.' + convId));
+            channel.bind('pusher:subscription_error', (status) => dbg('Subscription error', status));
+
+            // استقبال الرسائل الحية لمنع التكرار
+            channel.bind('message.new', function (data) {
+                dbg('Live notification received:', data);
+                const myId = document.getElementById('my-user-id').value;
+
+                const msgObj = data.message || data;
+                const senderId = msgObj.sender_id || msgObj.senderId || (msgObj.user && msgObj.user.id);
+                const messageText = msgObj.message || msgObj.body || msgObj.text;
+
+                if (parseInt(senderId) !== parseInt(myId)) {
+                    appendMessageToScreen(messageText || JSON.stringify(msgObj), 'other');
+                } else {
+                    dbg('Incoming message is from me, ignoring live append');
+                }
+            });
+        }
+
+        // دالة إرسال رسالة جديدة
+        function sendMessage() {
+            const token = document.getElementById('auth-token').value.trim();
+            const convId = document.getElementById('conv-id').value;
+            const input = document.getElementById('message-input');
+            const text = input.value.trim();
+
+            if (!text) return;
+
+            // طباعة رسالتي فوراً باللون الأزرق لسرعة تصفح المستخدم
+            appendMessageToScreen(text, 'me');
+            input.value = '';
+            // إرسال الرسالة للـ API ليتم حفظها وبثها (مع ديباغ)
+            const debugEl = document.getElementById('debug');
+            function dbgSend(...args) { try { console.log(...args); } catch (e) { } debugEl.innerText = (new Date()).toLocaleTimeString() + ' ' + args.map(a => typeof a === 'object' ? JSON.stringify(a, null, 2) : String(a)).join(' '); }
+
+            dbgSend('Sending message', { conversation_id: convId, message: text });
+            fetch('http://127.0.0.1:8000/api/chat/message', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token,
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    conversation_id: parseInt(convId),
+                    message: text
+                })
+            })
+                .then(r => r.json())
+                .then(d => dbgSend('Send response', d))
+                .catch(e => dbgSend('Send error', e));
+        }
+
+        function appendMessageToScreen(text, side) {
+            const msgBox = document.getElementById('messages-box');
+            const div = document.createElement('div');
+            div.className = `msg ${side}`;
+            div.innerText = text;
+            msgBox.appendChild(div);
+            msgBox.scrollTop = msgBox.scrollHeight;
+        }
+    </script>
+</body>
+
+</html>

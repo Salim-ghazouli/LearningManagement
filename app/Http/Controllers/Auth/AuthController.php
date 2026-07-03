@@ -13,6 +13,8 @@ use App\Http\Requests\Auth\ForgotPasswordRequest;
 use App\Http\Requests\Auth\ResetPasswordRequest;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Auth\Events\Verified;
+use App\Repositories\DeviceRepository;
+use Illuminate\Support\Facades\Auth;
 
 
 
@@ -20,11 +22,12 @@ class AuthController extends Controller
 {
     use ApiResponseTrait;
 
-    protected $authService;
+    protected $authService , $deviceRepo;
 
-    public function __construct(AuthService $authService)
+    public function __construct(AuthService $authService, DeviceRepository $deviceRepo)
     {
         $this->authService = $authService;
+        $this->deviceRepo = $deviceRepo;
     }
     public function register(RegisterRequests $request)
     {
@@ -45,7 +48,15 @@ class AuthController extends Controller
         try {
 
             $result = $this->authService->loginUser($request->username, $request->password);
-
+            
+            
+            if ($request->has('fcm_token') && $request->filled('fcm_token')) {
+                $this->deviceRepo->updateOrCreateToken(
+                    $result['user']->id,
+                    $request->input('fcm_token'),
+                    $request->input('device_type')
+                );
+            }
             if (!$result) {
                 return $this->apiResponse(null, 'Invalid credentials',422);
             }
@@ -60,6 +71,7 @@ class AuthController extends Controller
     {
         try {
             $this->authService->logoutUser($request->user());
+            $this->deviceRepo->deleteToken($request->user()->id, $request->input('fcm_token'));
 
             return $this->apiResponse(null, 'Logout successful',200);
         } catch (\Exception $e) {

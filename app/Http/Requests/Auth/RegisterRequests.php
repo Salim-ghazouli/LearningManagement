@@ -26,6 +26,7 @@ class RegisterRequests extends FormRequest
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:8|confirmed',
             
+            
         ];
     }
     protected function failedValidation(Validator $validator)
