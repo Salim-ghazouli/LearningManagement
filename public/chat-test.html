@@ -143,14 +143,12 @@
     </div>
 
     <script>
-        // إعدادات الـ Pusher الخاصة بك
         const PUSHER_KEY = '88ae7ab6828de0ca48e1';
         const PUSHER_CLUSTER = 'eu';
 
         let pusher = null;
         let channel = null;
 
-        // دالة البدء: تجلب الأرشيف بالرابط الجديد، ثم تشترك في البث المباشر
         function initChat() {
             const token = document.getElementById('auth-token').value.trim();
             const convId = document.getElementById('conv-id').value;
@@ -163,7 +161,6 @@
 
             if (!token) { alert('Please enter your Laravel Bearer Token!'); return; }
 
-            // 1. جلب الرسائل السابقة واطّلاع على الاستجابة للتصحيح
             dbg('Fetching conversation messages', { conversation_id: convId });
             fetch(`http://127.0.0.1:8000/api/chat/conversation/messages`, {
                 method: 'POST',
@@ -181,9 +178,8 @@
                     dbg('Messages response', resData);
                     if (resData.status) {
                         const msgBox = document.getElementById('messages-box');
-                        msgBox.innerHTML = ''; // تنظيف الشاشة
+                        msgBox.innerHTML = ''; 
 
-                        // قراءة الرسائل وتحديد اتجاه الفقاعة
                         resData.data.forEach(msg => {
                             const myId = document.getElementById('my-user-id').value;
                             const side = parseInt(msg.sender_id) === parseInt(myId) ? 'me' : 'other';
@@ -196,7 +192,6 @@
                 })
                 .catch(err => dbg('Error fetching old messages:', err));
 
-            // 2. ربط الـ Pusher للاستماع للرسائل الحية
             if (pusher) pusher.disconnect();
 
             pusher = new Pusher(PUSHER_KEY, {
@@ -213,7 +208,6 @@
             channel.bind('pusher:subscription_succeeded', () => dbg('Subscribed to', 'private-chat.' + convId));
             channel.bind('pusher:subscription_error', (status) => dbg('Subscription error', status));
 
-            // استقبال الرسائل الحية لمنع التكرار
             channel.bind('message.new', function (data) {
                 dbg('Live notification received:', data);
                 const myId = document.getElementById('my-user-id').value;
@@ -230,7 +224,6 @@
             });
         }
 
-        // دالة إرسال رسالة جديدة
         function sendMessage() {
             const token = document.getElementById('auth-token').value.trim();
             const convId = document.getElementById('conv-id').value;
@@ -239,10 +232,8 @@
 
             if (!text) return;
 
-            // طباعة رسالتي فوراً باللون الأزرق لسرعة تصفح المستخدم
             appendMessageToScreen(text, 'me');
             input.value = '';
-            // إرسال الرسالة للـ API ليتم حفظها وبثها (مع ديباغ)
             const debugEl = document.getElementById('debug');
             function dbgSend(...args) { try { console.log(...args); } catch (e) { } debugEl.innerText = (new Date()).toLocaleTimeString() + ' ' + args.map(a => typeof a === 'object' ? JSON.stringify(a, null, 2) : String(a)).join(' '); }
 

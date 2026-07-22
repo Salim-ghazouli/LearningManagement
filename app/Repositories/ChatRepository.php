@@ -7,9 +7,7 @@ use App\Models\Message;
 
 class ChatRepository
 {
-    /**
-     * البحث عن محادثة ثنائية قائمة بين مستخدمين
-     */
+    
     public function findConversation(int $userId1, int $userId2)
     {
         return Conversation::where(function ($query) use ($userId1, $userId2) {
@@ -19,9 +17,7 @@ class ChatRepository
         })->first();
     }
 
-    /**
-     * إنشاء محادثة جديدة
-     */
+    
     public function createConversation(int $senderId, int $receiverId)
     {
         return Conversation::create([
@@ -30,17 +26,13 @@ class ChatRepository
         ]);
     }
 
-    /**
-     * جلب محادثة محددة مع التحقق من وجودها
-     */
+    
     public function getConversationById($conversation_id)
     {
         return Conversation::findOrFail($conversation_id);
     }
 
-    /**
-     * حفظ الرسالة في قاعدة البيانات
-     */
+   
     public function createMessage(int $conversation_id, int $senderId, string $text)
     {
         return Message::create([
@@ -50,9 +42,7 @@ class ChatRepository
         ]);
     }
 
-    /**
-     * جلب رسائل محادثة معينة مع بيانات المرسل
-     */
+   
     public function getMessagesByConversation($conversation_id)
     {
         return Message::where('conversation_id', $conversation_id)

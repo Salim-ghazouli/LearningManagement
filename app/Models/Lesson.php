@@ -8,7 +8,7 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 class Lesson extends Model implements HasMedia
 {
-    use InteractsWithMedia;
+    use InteractsWithMedia, SoftDeletes;
 
     protected $fillable = ['course_id', 'title', 'description', 'is_free_preview', 'sort_order'];
 

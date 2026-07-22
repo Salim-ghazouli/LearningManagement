@@ -98,7 +98,6 @@ Route::get('/payment/success', [PaymentController::class, 'success']);
 Route::get('/payment/cancel', [PaymentController::class, 'cancel']);
 
 Route::middleware('auth:sanctum')->group(function () {
-    // مسارات نظام المحادثات
     Route::post('/chat/conversation', [ChatController::class, 'startConversation']);
     Route::post('/chat/message', [ChatController::class, 'sendMessage']);
     Route::post('/chat/conversation/messages', [ChatController::class, 'getMessages']);

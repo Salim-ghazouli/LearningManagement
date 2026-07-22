@@ -10,7 +10,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 class Course extends Model implements HasMedia
 {
     use InteractsWithMedia;
-    protected $fillable = ['instructor_id', 'title', 'description', 'price', 'is_free', 'category'];
+    protected $fillable = ['title', 'description', 'price', 'is_free', 'category', 'status', 'course_image'];
 
     public function scopeFilter(Builder $query, array $filters)
     {

@@ -1,11 +1,8 @@
 <?php
 
-use App\Providers\AppServiceProvider;
-use Kreait\LaravelFirebase\ServiceProvider;
-
 return [
-    AppServiceProvider::class,
-    
-    'Kreait\LaravelFirebase\ServiceProvider',
+    App\Providers\AppServiceProvider::class,
+    App\Providers\Filament\AdminPanelProvider::class,
     Illuminate\Broadcasting\BroadcastServiceProvider::class,
+   
 ];

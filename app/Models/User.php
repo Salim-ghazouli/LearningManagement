@@ -9,9 +9,11 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Spatie\Permission\Traits\HasRoles;
+use Filament\Panel;
+use Filament\Models\Contracts\HasName;
 
 
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable implements MustVerifyEmail, HasName
 {
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes, HasRoles;
 
@@ -73,5 +75,24 @@ class User extends Authenticatable implements MustVerifyEmail
     public function devices()
     {
         return $this->hasMany(UserDevice::class);
+    }
+    //public function canAccessPanel(Panel $panel): bool
+    //{
+
+    //  return $this->role === 'admin';
+    //}
+    public function getFilamentAuthIdentifierName(): string
+    {
+        return 'username';
+    }
+
+    public function getFilamentName(): string
+    {
+        return $this->username ?? $this->name ?? 'Admin';
+    }
+
+    public function getRoleAttribute(): ?string
+    {
+        return $this->roles->pluck('name')->first();
     }
 }

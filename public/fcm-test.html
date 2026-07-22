@@ -16,7 +16,6 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
         import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-messaging.js";
 
-        // إعدادات مشروعك الحقيقي
         const firebaseConfig = {
             apiKey: "AIzaSyApIzl1uy6clfvPKs7W9e54Io1IP6b5JRY",
             authDomain: "imst-b2007.firebaseapp.com",
@@ -27,19 +26,15 @@
             measurementId: "G-1RTB5Q83MK"
         };
 
-        // تهيئة فايربيس والـ Messaging بالأسلوب الحديث
         const app = initializeApp(firebaseConfig);
         const messaging = getMessaging(app);
 
-        // ربط الحدث بالزر بشكل نظيف متوافق مع الـ Module
         document.getElementById('btn-token').addEventListener('click', () => {
             Notification.requestPermission().then((permission) => {
                 if (permission === 'granted') {
                     console.log('Notification permission granted. Fetching token...');
 
-                    // جلب التوكن الفعلي
-                    // ملاحظة: يجب توليد الـ Key من لوحة تحكم Firebase (Settings -> Cloud Messaging -> Web Push certificates) واستبداله بالكامل بالأسفل
-                    getToken(messaging, { vapidKey: 'BA9r5a9Dvg3STZI91UeGYq-6nCqo_0HO-5aXWLku-l0TluM9_gqrk0fg6C2dlBlOtBasT3OX-n4qi5vwcGqKseg' })
+                    getToken(messaging, { vapidKey: 'BABJ1Qrwk85_JQKStRYeRv0SiL-X7dil50pC5BbyEpJZMf-9onDXRp-pMCB4d93WaZuKeH2OeAMUIdlHv42WaRg' })
                         .then((currentToken) => {
                             if (currentToken) {
                                 document.getElementById('token-box').value = currentToken;

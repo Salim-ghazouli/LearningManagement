@@ -3,12 +3,13 @@
 namespace App\Services;
 
 use App\Repositories\UserRepository;
-use Illuminate\Support\Facades\Hash;
 use App\Models\InstructorProfile;
 use App\Models\StudentProfile;
+use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
-use Illuminate\Auth\Events\PasswordReset;
+use Spatie\Permission\Models\Role;
 
 class AuthService
 {
@@ -23,16 +24,26 @@ class AuthService
         try {
             $data['password'] = Hash::make($data['password']);
             $user = $this->userRepository->create($data);
-            $user->sendEmailVerificationNotification();
-            if ($user->role_id == 2) {
-                InstructorProfile::create(['user_id' => $user->id]);
-            } elseif ($user->role_id == 3) {
-                StudentProfile::create(['user_id' => $user->id]);
+
+            if (!empty($data['role'])) {
+                $roleName = Str::title($data['role']);
+
+                if (Role::where('name', $roleName)->exists()) {
+                    $user->syncRoles([$roleName]);
+                }
+
+                if ($roleName === 'Instructor') {
+                    InstructorProfile::create(['user_id' => $user->id]);
+                } elseif ($roleName === 'Student') {
+                    StudentProfile::create(['user_id' => $user->id]);
+                }
             }
+
+            $user->sendEmailVerificationNotification();
 
             return [
                 'user' => $user,
-                'token' => $user->createToken('auth_token')->plainTextToken
+                'token' => $user->createToken('auth_token')->plainTextToken,
             ];
         } catch (\Exception $e) {
             throw new \Exception("Error registering user: " . $e->getMessage());

@@ -23,7 +23,6 @@ class EnrollmentController extends Controller
         $this->enrollmentService = $enrollmentService;
     }
 
-    // 1. تسجيل طالب في كورس (المتطلب رقم 1)    
     public function enroll(StoreEnrollmentRequest $request)
     {
         try {
@@ -34,7 +33,6 @@ class EnrollmentController extends Controller
         }
     }
 
-    // 2. جلب الكورسات التي سجل فيها الطالب الحالي (المتطلب رقم 3)
     public function myCourses(StudentsEnrollCoursesRequest $request)
     {
         try {
@@ -45,7 +43,6 @@ class EnrollmentController extends Controller
         }
     }
 
-    // 3. جلب الطلاب المسجلين في كورس معين (المتطلب رقم 4)
     public function courseStudents(CourseStudentsRequest $request)
     {
         try {
@@ -56,7 +53,6 @@ class EnrollmentController extends Controller
         }
     }
 
-    // 4. إدارة وتحديث حالة التسجيل (المتطلب رقم 5)
     public function updateStatus(UpdateStatusRequest $request)
     {
         try {
