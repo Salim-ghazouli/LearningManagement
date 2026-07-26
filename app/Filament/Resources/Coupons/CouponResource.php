@@ -23,7 +23,6 @@ class CouponResource extends Resource
     protected static ?string $navigationLabel = 'Coupons';
     protected static string | UnitEnum | null $navigationGroup = 'Billing & Payments';
 
-    // كتبنا المسار الكامل للـ Schema هنا مباشرة لضمان عدم التعارض مع الفورم أو الجداول
     public static function form(\Filament\Schemas\Schema $schema): \Filament\Schemas\Schema
     {
         return $schema->components([
@@ -31,13 +30,7 @@ class CouponResource extends Resource
                 ->label('Coupon Code')
                 ->required()
                 ->unique(ignoreRecord: true)
-                ->uppercase()
                 ->maxLength(255)
-                ->columnSpanFull(),
-
-            Forms\Components\Textarea::make('description')
-                ->label('Description')
-                ->rows(3)
                 ->columnSpanFull(),
 
             Forms\Components\Select::make('type')
@@ -55,10 +48,6 @@ class CouponResource extends Resource
                 ->step(0.01)
                 ->required(),
 
-            Forms\Components\DateTimePicker::make('starts_at')
-                ->label('Start Date')
-                ->nullable(),
-
             Forms\Components\DateTimePicker::make('expires_at')
                 ->label('Expiration Date')
                 ->nullable(),
@@ -69,20 +58,6 @@ class CouponResource extends Resource
                 ->minValue(1)
                 ->nullable()
                 ->helperText('Leave empty for unlimited usage'),
-
-            Forms\Components\Toggle::make('is_global')
-                ->label('Global Coupon')
-                ->helperText('Available for all courses if enabled')
-                ->default(true)
-                ->live(),
-
-            Forms\Components\Select::make('courses')
-                ->label('Assign to Courses')
-                ->relationship('courses', 'title')
-                ->multiple()
-                ->searchable()
-                ->preload()
-                ->hidden(fn($get) => $get('is_global')),
 
             Forms\Components\Toggle::make('is_active')
                 ->label('Active')
@@ -100,11 +75,6 @@ class CouponResource extends Resource
                     ->sortable()
                     ->copyable()
                     ->fontFamily('mono'),
-
-                Tables\Columns\TextColumn::make('description')
-                    ->label('Description')
-                    ->limit(50)
-                    ->searchable(),
 
                 Tables\Columns\TextColumn::make('type')
                     ->label('Type')
@@ -127,11 +97,6 @@ class CouponResource extends Resource
                     )
                     ->sortable(),
 
-                Tables\Columns\IconColumn::make('is_global')
-                    ->label('Global')
-                    ->boolean()
-                    ->sortable(),
-
                 Tables\Columns\TextColumn::make('usage_limit')
                     ->label('Usage Limit')
                     ->formatStateUsing(fn(?int $state) => $state ? "$state uses" : 'Unlimited')
@@ -140,12 +105,6 @@ class CouponResource extends Resource
                 Tables\Columns\TextColumn::make('used_count')
                     ->label('Used')
                     ->sortable(),
-
-                Tables\Columns\TextColumn::make('starts_at')
-                    ->label('Starts')
-                    ->dateTime('M d, Y')
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
 
                 Tables\Columns\TextColumn::make('expires_at')
                     ->label('Expires')
@@ -176,15 +135,8 @@ class CouponResource extends Resource
                         1 => 'Active',
                         0 => 'Inactive',
                     ]),
-
-                Tables\Filters\SelectFilter::make('is_global')
-                    ->options([
-                        1 => 'Global',
-                        0 => 'Course-Specific',
-                    ]),
             ])
             ->actions([
-                // استخدام كلاس الـ Action العام التابع لحزمة الفيلPartial الأساسية لمنع التعارض مع الجداول والـ Schema
                 \Filament\Actions\Action::make('activate')
                     ->label('Activate')
                     ->icon('heroicon-o-check-circle')

@@ -28,6 +28,7 @@ class CourseResource extends Resource
     protected static string | BackedEnum | null $navigationIcon = 'heroicon-o-academic-cap';
     protected static ?string $navigationLabel = 'Courses';
     protected static string | UnitEnum | null $navigationGroup = 'Course Management';
+    
 
     public static function form(Schema $schema): Schema
     {

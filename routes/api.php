@@ -23,6 +23,7 @@ Route::post('/password/reset', [AuthController::class, 'reset'])->name('password
 Route::get('/lessons/{id}', [LessonController::class, 'show']);
 Route::middleware(['auth:sanctum'])->group(
     function () {
+
         Route::post('/devices/register/token', [DeviceController::class, 'storeToken']);
         Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
         Route::post('/courses/ShowCourses', [CourseController::class, 'Show_courses'])->middleware('auth:sanctum');
@@ -36,6 +37,7 @@ Route::middleware(['auth:sanctum', 'role:Admin'])->group(function () {
     Route::post('/admin/assign-role/{user_id}', [AdminController::class, 'assignRole']);
     Route::post('/admin/revoke-role/{user_id}', [AdminController::class, 'revokeRole']);
     Route::post('/admin/update-role/{user_id}', [AdminController::class, 'updateRole']);
+
     //courses
     Route::post('/courses/create', [CourseController::class, 'create_course']);
     Route::post('/courses/update/{course_id}', [CourseController::class, 'update']);

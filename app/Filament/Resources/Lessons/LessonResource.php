@@ -20,7 +20,7 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
-
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 
 class LessonResource extends Resource
 {
@@ -30,50 +30,44 @@ class LessonResource extends Resource
 
     protected static ?string $navigationLabel = 'Lessons';
 
-    protected static string | UnitEnum | null $navigationGroup = 'Course Management';
+    protected static string | UnitEnum | null $navigationGroup = 'Core Management';
 
     public static function form(Schema $schema): Schema
     {
         return $schema
-            ->schema([
-                Forms\Components\Select::make('Lesson Details')
-                    ->schema([
-                        Forms\Components\Select::make('course_id')
-                            ->label('Course')
-                            ->options(Course::pluck('title', 'id'))
-                            ->searchable()
-                            ->preload()
-                            ->required(),
+            ->components([
+                Forms\Components\Select::make('course_id')
+                    ->label('Course')
+                    ->options(Course::pluck('title', 'id'))
+                    ->searchable()
+                    ->preload()
+                    ->required(),
 
-                        Forms\Components\TextInput::make('title')
-                            ->required()
-                            ->maxLength(255),
+                Forms\Components\TextInput::make('title')
+                    ->label('Lesson Title')
+                    ->required()
+                    ->maxLength(255),
 
-                        Forms\Components\TextInput::make('sort_order')
-                            ->numeric()
-                            ->default(0)
-                            ->required(),
+                Forms\Components\TextInput::make('order')
+                    ->label('Sort Order')
+                    ->numeric()
+                    ->default(0)
+                    ->required(),
 
-                        Forms\Components\Toggle::make('is_free_preview')
-                            ->label('Free Preview')
-                            ->default(false),
+                
 
-                        Forms\Components\RichEditor::make('description')
-                            ->maxLength(65535)
-                            ->columnSpanFull(),
-                    ])->columns(2),
+                Forms\Components\RichEditor::make('description')
+                    ->label('Description')
+                    ->maxLength(65535)
+                    ->columnSpanFull(),
 
-                Forms\Components\Select::make('Lesson Attachments')
-                    ->schema([
-                        Forms\Components\FileUpload::make('lesson_files')
-                            ->label('Lesson Files (Video / PDF)')
-                            ->collection('lessons')
-                            ->multiple()
-                            ->acceptedFileTypes(['video/mp4', 'video/quicktime', 'application/pdf'])
-                            ->maxSize(102400)
-                            ->preserveFilenames()
-                            ->columnSpanFull(),
-                    ]),
+            Forms\Components\FileUpload::make('lesson_files')
+                    ->label('Lesson Files (Video / PDF)')
+                    ->multiple()
+                    ->acceptedFileTypes(['video/mp4', 'video/quicktime', 'application/pdf'])
+                    ->maxSize(102400)
+                    ->preserveFilenames()
+                    ->columnSpanFull(),
             ]);
     }
 
@@ -90,13 +84,11 @@ class LessonResource extends Resource
                     ->searchable()
                     ->sortable(),
 
-                Tables\Columns\TextColumn::make('sort_order')
+                Tables\Columns\TextColumn::make('order')
                     ->label('Order')
                     ->sortable(),
 
-                Tables\Columns\IconColumn::make('is_free_preview')
-                    ->label('Free')
-                    ->boolean(),
+                
 
                 Tables\Columns\TextColumn::make('media')
                     ->label('Files & Sizes')
@@ -108,7 +100,7 @@ class LessonResource extends Resource
                     })
                     ->wrap()
                     ->badge()
-                    ->color('secondary'),
+                    ->color('gray'),
 
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()

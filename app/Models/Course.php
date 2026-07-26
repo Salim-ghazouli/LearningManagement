@@ -67,4 +67,14 @@ class Course extends Model implements HasMedia
             ->withPivot('status')
             ->withTimestamps();
     }
+
+    public function enrollments()
+    {
+        return $this->hasMany(Enrollment::class);
+    }
+
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
+    }
 }

@@ -10,12 +10,11 @@ use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Columns\BadgeColumn;
+use Filament\Tables\Actions\ViewAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\Action;
 use Filament\Notifications\Notification;
-use Illuminate\Support\Facades\Auth;
 use BackedEnum;
 use UnitEnum;
 
@@ -29,7 +28,7 @@ class PaymentResource extends Resource
 
     public static function form(Schema $schema): Schema
     {
-        return $schema->schema([
+        return $schema->components([
             Forms\Components\TextInput::make('stripe_session_id')
                 ->label('Stripe Session ID')
                 ->disabled()
@@ -88,7 +87,7 @@ class PaymentResource extends Resource
                     ->label('Stripe Session ID')
                     ->searchable()
                     ->copyable()
-                    ->limit(30),
+                    ->limit(20),
 
                 TextColumn::make('amount')
                     ->label('Amount')
@@ -99,14 +98,16 @@ class PaymentResource extends Resource
                     ->label('Currency')
                     ->sortable(),
 
-                BadgeColumn::make('status')
+                TextColumn::make('status')
                     ->label('Status')
-                    ->colors([
-                        'warning' => 'pending',
-                        'success' => 'completed',
-                        'danger' => 'failed',
-                        'info' => 'refunded',
-                    ])
+                    ->badge()
+                    ->color(fn(string $state): string => match ($state) {
+                        'pending' => 'warning',
+                        'completed' => 'success',
+                        'failed' => 'danger',
+                        'refunded' => 'info',
+                        default => 'gray',
+                    })
                     ->formatStateUsing(fn(string $state): string => ucfirst($state))
                     ->sortable(),
 
@@ -140,6 +141,8 @@ class PaymentResource extends Resource
                     ->label('Course'),
             ])
             ->actions([
+                \Filament\Actions\ViewAction::make(),
+
                 Action::make('refund')
                     ->label('Refund Payment')
                     ->icon('heroicon-o-arrow-uturn-left')
@@ -147,7 +150,6 @@ class PaymentResource extends Resource
                     ->visible(fn(Transaction $record) => $record->status === 'completed')
                     ->action(function (Transaction $record) {
                         try {
-                            // Mock refund logic (replace with real Stripe API call if needed)
                             $record->update(['status' => 'refunded']);
 
                             Notification::make()
@@ -163,11 +165,6 @@ class PaymentResource extends Resource
                                 ->send();
                         }
                     }),
-
-                Action::make('viewDetails')
-                    ->label('View')
-                    ->url(fn(Transaction $record) => route('filament.admin.resources.payments.view', $record))
-                    ->openUrlInNewTab(),
             ])
             ->bulkActions([
                 BulkActionGroup::make([
